@@ -45,7 +45,7 @@ def insert():
             cur.execute("select max(order_id) from {}".format(table_name))
             data = cur.fetchone()
             order_id = int(data[0]) + 1
-            cur.execute("select max(user_id) from {}".format(table_name))
+            cur.execute("select max(user_id) from user")
             data = cur.fetchone()
             user_id = int(data[0]) + 1
             data = request.get_json(silent=True, force=True)
@@ -65,18 +65,19 @@ def insert():
             table_name = "user"
             cur.execute(f"insert into {table_name} values {values}")
             return {
-                "fulfillmentText":  'order placed successfully\n'
-                                        'your order details as follows:\n'
-                                        'user-name:' + name + '\n'
-                                        'address:' + address + '\n'
-                                        'mobile:' + phone + '\n'
-                                        'order_id:' + str(order_id) + '\n'
-                                        'pizza-type:' + pizza_type + '\n'
-                                        'pizza_variety:' + pizza_variety + '\n'
-                                        'pizza-size:' + pizza_size + '\n'
-                                        'quantity:' + quantity + '\n'
-                                        'toppings:' + toppings + '\n'
-                                        'crust-type:' + crust_type + '\n'
+                "fulfillmentText": 'order placed successfully\n'
+                                   'your order details as follows:\n'
+                                   'user-name:' + name + '\n'
+                                                         'address:' + address + '\n'
+                                                                                'mobile:' + phone + '\n'
+                                                                                                    'order_id:' + str(
+                    order_id) + '\n'
+                                'pizza-type:' + pizza_type + '\n'
+                                                             'pizza_variety:' + pizza_variety + '\n'
+                                                                                                'pizza-size:' + pizza_size + '\n'
+                                                                                                                             'quantity:' + quantity + '\n'
+                                                                                                                                                      'toppings:' + toppings + '\n'
+                                                                                                                                                                               'crust-type:' + crust_type + '\n'
             }
         except Exception as e:
             print(e)
@@ -99,18 +100,20 @@ def order_status():
             print(f"Cursor object : {cur}")
             data = request.get_json(silent=True, force=True)
             query_result = data.get('queryResult')
-            order_id = (query_result.get('parameters').get('order_id'))
-            cur.execute("SELECT  pizza.user.order_id, name, status FROM pizza.user "
-                        "INNER JOIN pizza.order_status ON pizza.user.order_id =pizza.order_status.order_id "
-                        "and pizza.user.order_id={};".format(int(order_id)))
+            order_id = (query_result.get('parameters').get('number'))
+            # print(order_id)
+            cur.execute("SELECT user.order_id, name, status FROM user "
+                        "INNER JOIN order_status ON user.order_id =order_status.order_id "
+                        f"and user.order_id={order_id};")
             data = cur.fetchone()
             id, name, status = data
+            # return [id, name, status]
             return {
                 "fulfillmentText": 'order placed successfully\n'
-                                       'your order details as follows:\n'
-                                       'order_id:' + id + '\n'
-                                       'name:' + name + '\n'
-                                       'status:' + status + '\n'
+                                   'your order details as follows:\n'
+                                   'order_id:' + id + '\n'
+                                   'name:' + name + '\n'
+                                   'status:' + status + '\n'
             }
         except Exception as e:
             print(e)
@@ -120,4 +123,4 @@ def order_status():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=80)
+    app.run(debug=True, port=5000)
