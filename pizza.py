@@ -68,16 +68,15 @@ def insert():
                 "fulfillmentText": 'order placed successfully\n'
                                    'your order details as follows:\n'
                                    'user-name:' + name + '\n'
-                                                         'address:' + address + '\n'
-                                                                                'mobile:' + phone + '\n'
-                                                                                                    'order_id:' + str(
-                    order_id) + '\n'
-                                'pizza-type:' + pizza_type + '\n'
-                                                             'pizza_variety:' + pizza_variety + '\n'
-                                                                                                'pizza-size:' + pizza_size + '\n'
-                                                                                                                             'quantity:' + quantity + '\n'
-                                                                                                                                                      'toppings:' + toppings + '\n'
-                                                                                                                                                                               'crust-type:' + crust_type + '\n'
+                                   'address:' + address + '\n'
+                                   'mobile:' + phone + '\n'
+                                   'order_id:' + str(order_id) + '\n'
+                                   'pizza-type:' + pizza_type + '\n'
+                                   'pizza_variety:' + pizza_variety + '\n'
+                                   'pizza-size:' + pizza_size + '\n'
+                                   'quantity:' + quantity + '\n'
+                                   'toppings:' + toppings + '\n'
+                                   'crust-type:' + crust_type + '\n'
             }
         except Exception as e:
             print(e)
